@@ -2,7 +2,7 @@
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![Library](https://img.shields.io/badge/Library-XGBoost-orange)
-![Technique](https://img.shields.io/badge/Technique-SMOTE-green)
+![Technique](https://img.shields.io/badge/Technique-SMOTE-green) 
 ![Status](https://img.shields.io/badge/Status-Notcompleted-brightgreen)
 
 ## 📌 Project Overview
