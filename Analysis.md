@@ -1,0 +1,96 @@
+# 🏦 Credit Risk Prediction: End-to-End Classification Analysis
+
+![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
+![Library](https://img.shields.io/badge/Library-XGBoost-orange)
+![Technique](https://img.shields.io/badge/Technique-SMOTE-green)
+![Context](https://img.shields.io/badge/Context-Masters%20School-purple)
+![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
+
+## 🎓 Context & Objective
+This project was developed as a **Technical Case Study** for a **Mock Interview** session at **Masters School**.
+
+The objective was to simulate a real-world Data Science take-home assignment. The task involved taking a raw financial dataset, processing it, and building a machine learning model to predict loan defaults. The key challenge was to handle severe **class imbalance** while making a business-driven decision on the **Precision-Recall trade-off**.
+
+---
+
+## 1. 🔍 Data Inspection & Exploratory Data Analysis (EDA)
+Before modeling, a thorough investigation of the `loans_modified` dataset was conducted to understand data integrity and distributions.
+
+### Step 1.1: Data Integrity Checks
+* **Missing Values:** Checked for null values in critical columns (e.g., income, loan amount). Strategies such as mean imputation or row dropping were considered based on the ratio of missing data.
+* **Data Types:** Ensured that categorical variables (e.g., `term`, `grade`) were strictly separated from numerical features.
+* **Duplicates:** Verified and removed duplicate entries to prevent data leakage.
+
+### Step 1.2: Univariate & Bivariate Analysis
+* **Target Distribution:** Visualized the `loan_status` column.
+    * *Observation:* The dataset is highly imbalanced. The ratio of Safe Loans (Class 1) to Risky Loans (Class 0) was significantly high, indicating that standard accuracy metrics would be misleading.
+* **Correlation Matrix:** Analyzed the heatmap to identify multicollinearity between features.
+
+---
+
+## 2. ⚙️ Data Preprocessing & Feature Engineering
+To prepare the data for tree-based algorithms (Random Forest & XGBoost), the following steps were implemented:
+
+### Step 2.1: Encoding & Scaling
+* **Categorical Encoding:** Applied One-Hot Encoding (or Label Encoding) to transform string variables into machine-readable numeric formats.
+* **Scaling:** While tree-based models are robust to unscaled data, scaling was reviewed for potential future model comparisons (e.g., Logistic Regression).
+
+### Step 2.2: Handling Class Imbalance (SMOTE)
+Given the scarcity of the minority class (Class 0 - Risky Loans), I utilized **SMOTE (Synthetic Minority Over-sampling Technique)**.
+* **Strategy:** SMOTE was applied **only to the training set** to prevent data leakage.
+* **Result:** The training data distribution was balanced to a 50/50 ratio, forcing the model to learn the patterns of risky borrowers rather than biasing towards the majority class.
+
+```python
+# Snippet: Correct application of SMOTE
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y)
+smote = SMOTE(random_state=42)
+X_train_smote, y_train_smote = smote.fit_resample(X_train, y_train)
+```
+
+## 3. 🤖 Model Selection & Optimization
+
+I experimented with three distinct modeling phases to find the optimal configuration for the problem.
+
+### 🔹 Phase 1: Baseline Models
+* **Random Forest:** Used as a robust baseline algorithm to establish initial performance benchmarks.
+* **XGBoost (Standard):** Implemented with default parameters. Note that `scale_pos_weight` was adjusted implicitly via the balanced training data from **SMOTE**.
+
+### 🔹 Phase 2: Hyperparameter Tuning
+* **Technique:** `GridSearchCV`
+* **Parameters Tuned:** `n_estimators`, `max_depth`, `learning_rate`, `scale_pos_weight`.
+* **Outcome:** The tuning process resulted in a model that was **highly precise but too conservative**. It drastically reduced the **Recall rate**, meaning the model missed too many actual defaults (Class 0).
+
+### 🔹 Phase 3: Threshold Moving
+* **Technique:** Adjusted the decision threshold from the standard `0.5` to experimental values of `0.3` and `0.7`.
+* **Goal:** To aggressively capture **Class 0** instances by lowering the probability confidence required for the model to classify a loan as "Risky".
+
+
+## 4. 📊 Results & Business Evaluation
+
+The following table summarizes the performance evolution across the three distinct modeling phases.
+
+| Model Version | Risk Detection (Recall - Class 0) | Reliability (Precision - Class 0) | False Alarm (False Positive) | Comment |
+| :--- | :---: | :---: | :---: | :--- |
+| **1. First Model** (Standard) | **53%** (16 Count) | **64%** | 9 Count | **Most Balanced:** Captures risks well while keeping errors low. |
+| **2. Second Model** (Tuned) | **40%** (12 Count) | **67%** | 6 Count | **Too Conservative:** Made very few mistakes but missed significant risks. |
+| **3. Final Model** (Threshold 0.7) | **50%** (15 Count) | **56%** | 12 Count | **More Aggressive:** Detection rate increased (40% -> 50%), but "noise" (false alarms) increased. |
+
+---
+
+### 🎯 Business Conclusion: Why the Standard Model?
+
+In the banking domain, the cost of a **False Negative** (approving a bad loan → financial loss) is typically significantly higher than a **False Positive** (rejecting a good loan → opportunity cost).
+
+* **Recall Priority:** The **Standard XGBoost Model** provided the highest Recall (**53%**), successfully identifying the most high-risk applicants compared to other iterations.
+* **Stability:** The Tuned model proved to be too "safe" (overfitted to precision), while the Threshold-Moved model introduced excessive noise without a proportional gain in safety.
+* **Final Decision:** The **Standard Model** was selected as the **champion model** for deployment due to its superior trade-off between risk mitigation and operational efficiency.
+
+---
+
+## 🚀 Future Steps (In Progress)
+
+To further improve the model's performance and deployment readiness, the following steps are planned:
+
+* **Feature Engineering:** Deriving new financial features (e.g., *Debt-to-Income ratio*, *Credit Utilization*) to improve model separability.
+* **Ensemble Methods:** Experimenting with Stacking architectures, combining XGBoost with LightGBM or CatBoost.
+* **Deployment:** Creating a Streamlit API for real-time inference and visualization.
