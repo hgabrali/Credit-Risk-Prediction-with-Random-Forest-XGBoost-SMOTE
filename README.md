@@ -1,4 +1,4 @@
-# 🏦 Credit Risk Prediction with XGBoost & SMOTE
+# 🏦 Credit Risk Prediction with Random Forest vs. XGBoost & SMOTE
 
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![Library](https://img.shields.io/badge/Library-XGBoost-orange)
