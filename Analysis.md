@@ -1,16 +1,5 @@
 # 🏦 Credit Risk Prediction: End-to-End Classification Analysis
 
-![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
-![Library](https://img.shields.io/badge/Library-XGBoost-orange)
-![Technique](https://img.shields.io/badge/Technique-SMOTE-green)
-![Context](https://img.shields.io/badge/Context-Masters%20School-purple)
-![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
-
-## 🎓 Context & Objective
-This project was developed as a **Technical Case Study** for a **Mock Interview** session at **Masters School**.
-
-The objective was to simulate a real-world Data Science take-home assignment. The task involved taking a raw financial dataset, processing it, and building a machine learning model to predict loan defaults. The key challenge was to handle severe **class imbalance** while making a business-driven decision on the **Precision-Recall trade-off**.
-
 ---
 
 ## 1. 🔍 Data Inspection & Exploratory Data Analysis (EDA)
