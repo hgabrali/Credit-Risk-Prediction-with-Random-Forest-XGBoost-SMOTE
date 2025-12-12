@@ -3,7 +3,7 @@
 ![Python](https://img.shields.io/badge/Python-3.8%2B-blue)
 ![Library](https://img.shields.io/badge/Library-XGBoost-orange)
 ![Technique](https://img.shields.io/badge/Technique-SMOTE-green) 
-![Status](https://img.shields.io/badge/Status-Notcompleted-brightgreen)
+![Status](https://img.shields.io/badge/Status-In%20Progress-yellow)
 
 ## 📌 Project Overview
 This project focuses on predicting **loan defaults (Credit Risk)** using machine learning. The primary challenge was handling an **imbalanced dataset**, where risky loans (Class 0) were significantly underrepresented compared to safe loans.
