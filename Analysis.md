@@ -76,10 +76,44 @@ In the banking domain, the cost of a **False Negative** (approving a bad loan �
 
 ---
 
-## 🚀 Future Steps (In Progress)
+## 🚀 Future Steps
 
 To further improve the model's performance and deployment readiness, the following steps are planned:
 
 * **Feature Engineering:** Deriving new financial features (e.g., *Debt-to-Income ratio*, *Credit Utilization*) to improve model separability.
 * **Ensemble Methods:** Experimenting with Stacking architectures, combining XGBoost with LightGBM or CatBoost.
 * **Deployment:** Creating a Streamlit API for real-time inference and visualization.
+
+---
+
+# 🏦 Credit Risk Prediction: Handling Imbalanced Data
+**Technical Case Study | Mock Interview Session**
+
+## 📌 Project Overview
+This project focuses on predicting loan defaults (Credit Risk) using a highly imbalanced dataset. The primary challenge was to accurately identify risky loans (Class 0) without significantly increasing false alarms, simulating a real-world financial risk scenario.
+
+## 🛠 Tech Stack & Methodology
+* **Data Processing:** Pandas, NumPy
+* **Handling Imbalance:** SMOTE (Synthetic Minority Over-sampling Technique)
+* **Models:** * Random Forest Classifier
+    * XGBoost (Extreme Gradient Boosting)
+    * Gradient Boosting (Scikit-Learn)
+* **Optimization:** Threshold Moving for maximizing Recall/Precision trade-off.
+
+## 📊 Key Results & Business Decision
+We compared **Random Forest** vs. **Gradient Boosting**. The results highlighted a trade-off between detecting risky loans (Recall) and model stability.
+
+| Model | Threshold | Recall (Risky Loans) | Precision | ROC-AUC |
+| :--- | :---: | :---: | :---: | :---: |
+| **Random Forest** | 0.50 (Default) | 47% | 70% | **0.78** |
+| **Random Forest** | **0.43 (Optimized)** | **40%** | **80%** | **0.78** |
+| Gradient Boosting | 0.21 (Optimized) | 33% | 91% | 0.67 |
+
+### 🏆 Conclusion
+**Random Forest** was selected as the final model due to its superior stability and higher ROC-AUC score (0.78). 
+
+Using **Threshold Moving**, we identified that lowering the decision threshold to **0.43** allows the bank to maintain a high precision (**80%**), ensuring that when the model predicts a risk, it is highly likely to be correct, thus optimizing operational efficiency.
+
+## 📂 Repository Structure
+* `loans_modified.csv`: The dataset used for training and testing.
+* `Hande_Mock interview_Loans_modified.ipynb`: The Jupyter Notebook containing the full end-to-end analysis, code, and visualizations.
