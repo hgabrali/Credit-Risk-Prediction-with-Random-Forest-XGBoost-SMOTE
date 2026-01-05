@@ -21,6 +21,9 @@ The core task focuses on predicting **loan defaults (Credit Risk)**. The dataset
 
 Using **SMOTE** for data balancing and applying **Threshold Moving** techniques, I aimed to maximize the detection of risky loans (Recall) while maintaining a reasonable false alarm rate (Precision).
 
+<img width="385" height="601" alt="image" src="https://github.com/user-attachments/assets/540389f1-97ac-45be-bcfd-a3c1f53e3c1d" />
+
+
 ## 🛠️ Tech Stack & Methodology
 * **Data Processing:** Pandas, NumPy
 * **Handling Imbalance:** SMOTE (Synthetic Minority Over-sampling Technique)
